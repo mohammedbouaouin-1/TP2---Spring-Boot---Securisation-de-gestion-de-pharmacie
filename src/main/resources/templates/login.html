@@ -15,14 +15,11 @@
         .form-group { margin-bottom: 18px; }
         label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; }
         .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; font-family: inherit; outline: none; }
-        .form-control:focus { border-color: #047857; }
-        .btn-submit { width: 100%; background-color: #047857; color: #ffffff; border: none; padding: 11px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .form-control:focus { border-color: #047857; box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.1); }
+        .btn-submit { width: 100%; background-color: #047857; color: #ffffff; border: none; padding: 11px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: background-color 0.15s ease; }
         .btn-submit:hover { background-color: #065f46; }
         .alert-error { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 18px; }
         .alert-info { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 18px; }
-        .credentials-box { margin-top: 24px; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.8rem; color: #475569; }
-        .credentials-box strong { display: block; margin-bottom: 6px; color: #1e293b; }
-        .cred-item { margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -44,13 +41,6 @@
         </div>
         <button type="submit" class="btn-submit">Se connecter</button>
     </form>
-    <div class="credentials-box">
-        <strong>Comptes de test (TP 2) :</strong>
-        <div class="cred-item">ADMIN : admin / admin123</div>
-        <div class="cred-item">PHARMACIEN : pharma / pharma123</div>
-        <div class="cred-item">CAISSIER : caisse / caisse123</div>
-        <div class="cred-item">CLIENT : client / client123</div>
-    </div>
 </div>
 </body>
 </html>
