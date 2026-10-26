@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement des Ventes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; padding: 30px 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; }
+        .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 0.85rem; font-weight: 500; color: #334155; }
+        .form-control { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; font-family: inherit; }
+        .btn-group { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+        .btn { padding: 9px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; cursor: pointer; text-decoration: none; border: 1px solid transparent; }
+        .btn-primary { background: #047857; color: #ffffff; }
+        .btn-secondary { background: #ffffff; border-color: #cbd5e1; color: #1e293b; }
+        .alert-success { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 0.875rem; }
+        .alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div th:if="${successMessage}" class="alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert-error" th:text="${errorMessage}"></div>
+    <div class="card">
+        <h2 style="font-size: 1.25rem; margin-bottom: 18px;">Enregistrer une vente</h2>
+        <form th:action="@{/ventes/enregistrer}" method="post">
+            <div class="form-group">
+                <label for="medicamentId">Medicament a vendre</label>
+                <select id="medicamentId" name="medicamentId" class="form-control" required>
+                    <option value="">-- Selectionner un produit --</option>
+                    <option th:each="m : ${medicaments}" th:value="${m.id}"
+                            th:text="${m.nom + ' (Stock: ' + m.quantiteStock + ' | Prix: ' + m.prix + ' DH)'}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantite">Quantite a vendre</label>
+                <input type="number" id="quantite" name="quantite" min="1" value="1" class="form-control" required>
+            </div>
+            <div class="btn-group">
+                <a th:href="@{/home}" class="btn btn-secondary">Retour</a>
+                <button type="submit" class="btn btn-primary">Valider la vente</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

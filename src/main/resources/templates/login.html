@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Pharmacie Securite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .login-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 36px 32px; width: 100%; max-width: 420px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }
+        .login-header { text-align: center; margin-bottom: 24px; }
+        .login-header h1 { font-size: 1.4rem; font-weight: 700; color: #047857; }
+        .login-header p { font-size: 0.85rem; color: #64748b; margin-top: 4px; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; font-family: inherit; outline: none; }
+        .form-control:focus { border-color: #047857; }
+        .btn-submit { width: 100%; background-color: #047857; color: #ffffff; border: none; padding: 11px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .btn-submit:hover { background-color: #065f46; }
+        .alert-error { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 18px; }
+        .alert-info { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 18px; }
+        .credentials-box { margin-top: 24px; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.8rem; color: #475569; }
+        .credentials-box strong { display: block; margin-bottom: 6px; color: #1e293b; }
+        .cred-item { margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <div class="login-header">
+        <h1>Pharmacie Securite</h1>
+        <p>Authentification et controle d'acces</p>
+    </div>
+    <div th:if="${param.error}" class="alert-error">Identifiant ou mot de passe incorrect.</div>
+    <div th:if="${param.logout}" class="alert-info">Vous avez ete deconnecte avec succes.</div>
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" class="form-control" required autofocus placeholder="Identifiant">
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" class="form-control" required placeholder="Mot de passe">
+        </div>
+        <button type="submit" class="btn-submit">Se connecter</button>
+    </form>
+    <div class="credentials-box">
+        <strong>Comptes de test (TP 2) :</strong>
+        <div class="cred-item">ADMIN : admin / admin123</div>
+        <div class="cred-item">PHARMACIEN : pharma / pharma123</div>
+        <div class="cred-item">CAISSIER : caisse / caisse123</div>
+        <div class="cred-item">CLIENT : client / client123</div>
+    </div>
+</div>
+</body>
+</html>

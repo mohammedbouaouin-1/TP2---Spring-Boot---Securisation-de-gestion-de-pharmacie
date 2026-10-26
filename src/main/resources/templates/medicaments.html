@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicaments - Pharmacie Securite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; padding-bottom: 50px; }
+        .navbar { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 14px 20px; margin-bottom: 25px; }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .toolbar { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .form-control { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.875rem; font-family: inherit; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; text-decoration: none; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background-color: #047857; color: #ffffff; }
+        .btn-primary:hover { background-color: #065f46; }
+        .btn-secondary { background-color: #ffffff; border-color: #cbd5e1; color: #1e293b; }
+        .btn-secondary:hover { background-color: #f1f5f9; }
+        .btn-danger { background-color: #fef2f2; color: #dc2626; border-color: #fecaca; }
+        .table-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 12px 16px; font-size: 0.75rem; font-weight: 600; color: #64748b; text-transform: uppercase; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 12px 16px; font-size: 0.875rem; border-bottom: 1px solid #e2e8f0; }
+        .alert-success { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-inner">
+        <div><strong>Gestion des medicaments</strong></div>
+        <a th:href="@{/home}" class="btn btn-secondary">Retour a l'accueil</a>
+    </div>
+</nav>
+
+<main class="container">
+    <div th:if="${successMessage}" class="alert-success" th:text="${successMessage}"></div>
+
+    <div class="toolbar">
+        <form th:action="@{/medicaments}" method="get" style="display: flex; gap: 8px;">
+            <input type="text" name="search" th:value="${searchTerm}" placeholder="Rechercher par nom..." class="form-control" style="width: 220px;">
+            <button type="submit" class="btn btn-secondary">Filtrer</button>
+            <a th:href="@{/medicaments}" class="btn btn-secondary" th:if="${searchTerm != null}">Reinitialiser</a>
+        </form>
+
+        <div sec:authorize="hasAnyRole('ADMIN', 'PHARMACIEN')">
+            <a th:href="@{/medicaments/nouveau}" class="btn btn-primary">+ Nouveau medicament</a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom & Description</th>
+                    <th>Code Barre</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                    <th sec:authorize="hasAnyRole('ADMIN', 'PHARMACIEN')" style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${medicaments.empty}">
+                    <td colspan="6" style="text-align: center; padding: 30px; color: #64748b;">Aucun medicament trouve.</td>
+                </tr>
+                <tr th:each="m : ${medicaments}">
+                    <td th:text="${m.id}" style="color: #64748b;">1</td>
+                    <td>
+                        <strong th:text="${m.nom}">Nom</strong>
+                        <div style="font-size: 0.8rem; color: #64748b;" th:text="${m.description}">Description</div>
+                    </td>
+                    <td><code th:text="${m.codeBarre}">AMX-500</code></td>
+                    <td th:text="${#numbers.formatDecimal(m.prix, 1, 2) + ' DH'}" style="font-weight: 600;">0.00 DH</td>
+                    <td>
+                        <span th:text="${m.quantiteStock}" th:style="${m.quantiteStock < 20 ? 'color: #dc2626; font-weight: 600;' : 'color: #047857; font-weight: 600;'}">50</span> unites
+                    </td>
+                    <td sec:authorize="hasAnyRole('ADMIN', 'PHARMACIEN')" style="text-align: right;">
+                        <div style="display: flex; gap: 6px; justify-content: flex-end;">
+                            <a th:href="@{'/medicaments/modifier/' + ${m.id}}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Modifier</a>
+                            <a th:href="@{'/medicaments/supprimer/' + ${m.id}}" class="btn btn-danger" style="padding: 4px 8px; font-size: 0.75rem;"
+                               onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
